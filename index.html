@@ -220,7 +220,7 @@ section:nth-of-type(odd) {
 .scroll-down {
   display: block;
   margin-top: 30px;
-  font-size: 1.4rem;
+  font-size: 1.1rem;
   text-align: center;
   color: rgba(255,255,255,0.55);
   animation: bounce 2s infinite ease-in-out;
@@ -390,7 +390,7 @@ document.querySelectorAll(".fade-in").forEach(el=>{
 
 const images = document.querySelectorAll(".gallery img");
 
-const observer = new IntersectionObserver((entries) => {
+const imageObserver = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
 
         if(entry.isIntersecting){
@@ -406,7 +406,7 @@ const observer = new IntersectionObserver((entries) => {
 });
 
 images.forEach((img) => {
-    observer.observe(img);
+    imageObserver.observe(img);
 });
 
 </script>    
