@@ -167,6 +167,7 @@ model-viewer:active {
     background-color: rgba(255, 255, 255, 0.1);
     border-radius: 10px;
     z-index: 100;
+    pointer-events: none;
 }
 
 .update-bar {
@@ -496,5 +497,20 @@ danyf.rincon@gmail.com
         });
     });
 </script>   
+
+<script>
+    document.querySelectorAll('model-viewer').forEach((viewer) => {
+        // Cuando el mouse entra al modelo
+        viewer.addEventListener('mouseenter', () => {
+            viewer.style.backgroundColor = '#444'; 
+        });
+
+        // Cuando el mouse sale del modelo
+        viewer.addEventListener('mouseleave', () => {
+            viewer.style.backgroundColor = '#1a1a1a'; 
+        });
+    });
+</script>    
+    
 </body>
 </html>
