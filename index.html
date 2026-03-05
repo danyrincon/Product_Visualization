@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Product Visualization Specialist</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;600;700&display=swap" rel="stylesheet">
 
 <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
 
@@ -22,9 +22,12 @@ section {
     padding: 100px 12%;
 }
 
-h1 {
-    font-size: 3rem;
-    margin-bottom: 20px;
+.hero h1 {
+    font-size: clamp(3rem, 8vw, 6rem);
+    font-weight: 700;
+    line-height: 1.05;
+    letter-spacing: -2px;
+    margin-bottom: 30px;
 }
 
 h2 {
@@ -129,7 +132,10 @@ footer {
 <body>
 
 <section class="hero">
-<h1>Product Visualization Specialist</h1>
+<h1>
+Product Visualization<br>
+Specialist
+</h1>
 <p>High-end industrial rendering, technical documentation visuals and interactive 3D for engineering-driven brands.</p>
 <a href="#work" class="button">View Work</a>
 </section>
