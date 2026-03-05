@@ -121,20 +121,66 @@ h2::after {
     box-shadow: 0 25px 50px rgba(0,0,0,0.45);
 }
 
-video {
-    display: block;       /* Permite centrarlo con margin auto */
-    width: 80%;           /* 20% más pequeño que el contenedor original */
-    max-width: 1000px;    /* Evita que en pantallas gigantes se estire de más */
-    margin: 0 auto;       /* Centra el video horizontalmente */
+.video-container {
+    width: 80%;           /* El 20% más pequeño que querías */
+    max-width: 1000px;    /* Para que el 720p no se pixele */
+    margin: 40px auto;    /* Centra el contenedor */
     border: 3px solid #222;
-    border-radius: 8px;   /* Opcional: para que combine con tus imágenes */
+    border-radius: 8px;
+    overflow: hidden;     /* Para que el video respete las esquinas redondeadas */
+}
+
+video {
+    width: 100%;          /* Ahora el video se adapta al contenedor */
+    display: block;
 }
 
 model-viewer {
     width: 100%;
     height: 600px;
-    background: #111;
+    background-color: #111;
+    --progress-bar-color: #ffffff; /* Color de la línea de carga */
 }
+
+/* Estilo para el botón de AR personalizado */
+.ar-button {
+    background-color: #fff;
+    border-radius: 4px;
+    border: none;
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    padding: 8px 16px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+/* La barra de carga */
+.progress-bar {
+    display: block;
+    width: 33%;
+    height: 4px;
+    max-height: 2%;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 2px;
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.update-bar {
+    background-color: #fff;
+    width: 0%;
+    height: 100%;
+    border-radius: 2px;
+    transition: width 0.3s;
+}
+
+/* Ocultar la barra cuando cargue */
+model-viewer:not([ar-status="not-present"]) > .ar-button { display: block; }
+model-viewer > .progress-bar.hide { display: none; }
 
 .services {
     padding: 140px 12%;
@@ -343,17 +389,40 @@ Specialist
 </section>
 
 <section class="fade-in">
-<h2>Animations</h2>
-<video autoplay muted loop src="assets/animation1.mp4"></video>
-<br>
+    <h2>Animations</h2>
+    <div class="video-container">
+        <video autoplay muted loop playsinline src="assets/animation1.mp4"></video>
+    </div>
 </section>
-
 <section class="fade-in">
-<h2>Interactive 3D</h2>
+    <h2>Interactive 3D</h2>
 
-<model-viewer src="assets/model1.glb" auto-rotate camera-controls></model-viewer>
-<br><br>
-<model-viewer src="assets/model2.glb" auto-rotate camera-controls></model-viewer>
+    <model-viewer src="assets/model1.glb" 
+        poster="assets/render1.png" 
+        ar ar-modes="webxr scene-viewer quick-look" 
+        camera-controls auto-rotate 
+        shadow-intensity="1.5" shadow-softness="0.5" exposure="1.2">
+        
+        <button class="ar-button" slot="ar-button">View in AR</button>
+        <div class="progress-bar" slot="progress-bar">
+            <div class="update-bar"></div>
+        </div>
+    </model-viewer>
+
+    <br><br>
+
+    <model-viewer src="assets/model2.glb" 
+        poster="assets/render2.png" 
+        ar ar-modes="webxr scene-viewer quick-look" 
+        camera-controls auto-rotate 
+        shadow-intensity="1.5" shadow-softness="0.5" exposure="1.2">
+        
+        <button class="ar-button" slot="ar-button">View in AR</button>
+        <div class="progress-bar" slot="progress-bar">
+            <div class="update-bar"></div>
+        </div>
+    </model-viewer>
+</section>
 
 </section>
 
@@ -376,43 +445,36 @@ danyf.rincon@gmail.com
 </footer>
 
 <script>
-const observer = new IntersectionObserver(entries => {
-  entries.forEach(entry => {
-    if(entry.isIntersecting){
-      entry.target.classList.add("visible");
-    }
-  });
-});
+    const observerOptions = {
+        threshold: 0.15
+    };
 
-document.querySelectorAll(".fade-in").forEach(el=>{
-  observer.observe(el);
-});
-</script>
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add("visible");
+            }
+        });
+    }, observerOptions);
 
-<script>
-
-const images = document.querySelectorAll(".gallery img");
-
-const imageObserver = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-
-        if(entry.isIntersecting){
-
-            entry.target.classList.add("visible");
-
-        }
-
+    // Esto activa la animación para secciones, imágenes, videos y modelos 3D
+    document.querySelectorAll('section, .gallery img, .video-container, model-viewer').forEach(el => {
+        observer.observe(el);
     });
-
-},{
-    threshold: 0.15
-});
-
-images.forEach((img) => {
-    imageObserver.observe(img);
-});
-
 </script>    
-    
+<script>
+    document.querySelectorAll('model-viewer').forEach((viewer) => {
+        const progressBar = viewer.querySelector('.progress-bar');
+        const updateBar = viewer.querySelector('.update-bar');
+        
+        viewer.addEventListener('progress', (event) => {
+            const progress = event.detail.totalProgress * 100;
+            updateBar.style.width = `${progress}%`;
+            if (progress === 100) {
+                progressBar.classList.add('hide');
+            }
+        });
+    });
+</script>    
 </body>
 </html>
