@@ -139,27 +139,13 @@ video {
 model-viewer {
     width: 100%;
     height: 600px;
-    /* --- LA CLAVE ES ESTA VARIABLE --- */
-    --background-color: #1a1a1a; 
-    background-color: var(--background-color) !important;
-    
+    background-color: #1a1a1a;
     position: relative;
     border-radius: 8px;
-    transition: background-color 0.4s ease-out, --background-color 0.4s ease-out;
+    transition: background-color 0.4s ease; /* Esto hará que el cambio sea suave */
     cursor: grab;
     display: block;
 }
-
-/* Cambiamos la variable interna al pasar el mouse */
-model-viewer:hover {
-    --background-color: #444444 !important;
-    background-color: #444444 !important;
-}
-
-model-viewer:active {
-    cursor: grabbing;
-}
-
 .progress-bar {
     display: block;
     width: 40%;
@@ -503,18 +489,23 @@ danyf.rincon@gmail.com
 </script>   
 
 <script>
-    document.querySelectorAll('model-viewer').forEach((viewer) => {
-        // Cuando el mouse entra al modelo
+    // Seleccionamos todos los model-viewer de la página
+    const viewers = document.querySelectorAll('model-viewer');
+
+    viewers.forEach(viewer => {
+        // Al entrar el mouse
         viewer.addEventListener('mouseenter', () => {
-            viewer.style.backgroundColor = '#444'; 
+            // Cambiamos tanto el estilo como el atributo interno
+            viewer.style.backgroundColor = '#444';
+            viewer.setAttribute('background-color', '#444');
         });
 
-        // Cuando el mouse sale del modelo
+        // Al salir el mouse
         viewer.addEventListener('mouseleave', () => {
-            viewer.style.backgroundColor = '#1a1a1a'; 
+            viewer.style.backgroundColor = '#1a1a1a';
+            viewer.setAttribute('background-color', '#1a1a1a');
         });
     });
 </script>    
-    
 </body>
 </html>
