@@ -61,9 +61,11 @@ h2 {
     z-index: 1;
 }
 .hero p {
-    max-width: 600px;
+    max-width: 750px;
+    font-size: clamp(1.1rem, 2vw, 1.6rem);
     font-weight: 300;
     line-height: 1.6;
+    opacity: 0.85;
 }
 
 .button {
@@ -83,14 +85,14 @@ h2 {
 
 .gallery {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(900px, 1fr));
-    gap: 60px;
+    grid-template-columns: 1fr;
+    gap: 120px;
 }
 
 .gallery img {
     width: 100%;
-    height: 100%;
-    object-fit: cover;
+    height: auto;
+    object-fit: contain;
     border-radius: 8px;
     display: block;
     transition: transform 0.4s ease, box-shadow 0.4s ease;
@@ -112,14 +114,38 @@ model-viewer {
     background: #111;
 }
 
+.services {
+    padding: 140px 12%;
+}
+
+.services h2 {
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 600;
+    margin-bottom: 60px;
+    letter-spacing: -1px;
+}
+
 .services ul {
     list-style: none;
     padding: 0;
+    margin: 0;
 }
 
 .services li {
-    margin: 12px 0;
-    font-weight: 300;
+    font-size: clamp(1.3rem, 2vw, 1.8rem);
+    font-weight: 500;
+    padding: 30px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.services li:hover {
+    opacity: 1;
+    transform: translateX(8px);
+}
+
+.services li:not(:hover) {
+    opacity: 0.7;
 }
 
 footer {
