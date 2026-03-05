@@ -168,6 +168,36 @@ footer {
     border-top: 1px solid #222;
     padding: 60px 12%;
 }
+
+.email {
+    display: inline-block;
+    font-size: clamp(1.8rem, 3vw, 3rem);
+    font-weight: 600;
+    color: #E5E5E5;
+    text-decoration: none;
+    margin-top: 20px;
+    position: relative;
+    transition: color 0.3s ease;
+}
+
+.email::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -8px;
+    width: 0;
+    height: 2px;
+    background: #E5E5E5;
+    transition: width 0.4s ease;
+}
+
+.email:hover::after {
+    width: 100%;
+}
+
+.email:hover {
+    color: #ffffff;
+}
 </style>
 </head>
 
@@ -226,7 +256,9 @@ Specialist
 
 <footer>
 <h2>Contact</h2>
-<p>danyf.rincon@gmail.com</p>
+<a href="mailto:danyf.rincon@gmail.com" class="email">
+danyf.rincon@gmail.com
+</a>
 </footer>
 
 </body>
