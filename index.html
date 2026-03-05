@@ -28,6 +28,7 @@ section {
     line-height: 1.05;
     letter-spacing: -2px;
     margin-bottom: 30px;
+    text-shadow: 0 0 40px rgba(255,255,255,0.06);
 }
 
 h2 {
@@ -111,12 +112,13 @@ h2::after {
     object-fit: contain;
     border-radius: 8px;
     display: block;
-    transition: transform 0.4s ease, box-shadow 0.4s ease;
+    transition: transform 0.6s ease, filter 0.6s ease, box-shadow 0.6s ease;
 }
 
 .gallery img:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+    transform: translateY(-6px) scale(1.03);
+    filter: brightness(1.05);
+    box-shadow: 0 25px 50px rgba(0,0,0,0.45);
 }
 
 video {
@@ -185,6 +187,17 @@ footer {
     transform: translateX(6px);
 }
 
+.fade-in {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.fade-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}    
+    
 section {
   opacity: 0;
   transform: translateY(40px);
@@ -238,7 +251,7 @@ section:nth-of-type(odd) {
 .services li::after {
   content: attr(data-desc);
   display: block;
-  font-size: 0.95rem;
+  font-size: 1.1rem;
   color: rgba(255,255,255,0.65);
   opacity: 0;
   transform: translateY(-4px);
@@ -252,6 +265,19 @@ section:nth-of-type(odd) {
   opacity: 1;
   transform: translateY(0);
 }
+
+/* Render reveal animation */
+
+.gallery img {
+    opacity: 0;
+    transform: translateY(60px);
+    transition: opacity 0.9s ease, transform 0.9s ease;
+}
+
+.gallery img.visible {
+    opacity: 1;
+    transform: translateY(0);
+}    
     
 </style>
 </head>
@@ -297,7 +323,7 @@ Specialist
 </a>
 </section>
 
-<section id="work">
+<section id="work" class="fade-in">
 <h2>Selected Work</h2>
 <div class="gallery">
 <img src="assets/render1.png">
@@ -312,14 +338,14 @@ Specialist
 </div>
 </section>
 
-<section>
+<section class="fade-in">
 <h2>Animations</h2>
 <video autoplay muted loop src="assets/animation1.mp4"></video>
 <br><br>
 <video autoplay muted loop src="assets/animation2.mp4"></video>
 </section>
 
-<section>
+<section class="fade-in">
 <h2>Interactive 3D</h2>
 
 <model-viewer src="assets/model1.glb" auto-rotate camera-controls></model-viewer>
@@ -328,7 +354,7 @@ Specialist
 
 </section>
 
-<section class="services">
+<section class="services fade-in">
 <h2>Services</h2>
 <ul>
 <li data-desc="High fidelity stills for product promotion & technical use">High-End Product Rendering</li>
@@ -346,5 +372,44 @@ danyf.rincon@gmail.com
 </a>
 </footer>
 
+<script>
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if(entry.isIntersecting){
+      entry.target.classList.add("visible");
+    }
+  });
+});
+
+document.querySelectorAll(".fade-in").forEach(el=>{
+  observer.observe(el);
+});
+</script>
+
+<script>
+
+const images = document.querySelectorAll(".gallery img");
+
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+
+        if(entry.isIntersecting){
+
+            entry.target.classList.add("visible");
+
+        }
+
+    });
+
+},{
+    threshold: 0.15
+});
+
+images.forEach((img) => {
+    observer.observe(img);
+});
+
+</script>    
+    
 </body>
 </html>
