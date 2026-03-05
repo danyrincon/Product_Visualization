@@ -1,348 +1,481 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Product Visualization Specialist</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Product Visualization Specialist</title>
 
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;600;700&display=swap" rel="stylesheet">
 
-    <style>
-        body {
-            margin: 0;
-            font-family: 'Space Grotesk', sans-serif;
-            background: radial-gradient(circle at 20% 30%, #1a1a1a 0%, #0b0b0b 60%);
-            color: #E5E5E5;
-            scroll-behavior: smooth;
-        }
+<script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
 
-        section {
-            padding: 100px 12%;
-            opacity: 0;
-            transform: translateY(40px);
-            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
-        }
+<style>
+body {
+    margin: 0;
+    font-family: 'Space Grotesk', sans-serif;
+    background: radial-gradient(circle at 20% 30%, #1a1a1a 0%, #0b0b0b 60%);
+    color: #E5E5E5;
+    scroll-behavior: smooth;
+}
 
-        section.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
+section {
+    padding: 100px 12%;
+}
 
-        .hero {
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            position: relative;
-        }
+.hero h1 {
+    font-size: clamp(3rem, 8vw, 6rem);
+    font-weight: 700;
+    line-height: 1.05;
+    letter-spacing: -2px;
+    margin-bottom: 30px;
+    text-shadow: 0 0 40px rgba(255,255,255,0.06);
+}
 
-        .hero h1 {
-            font-size: clamp(3rem, 8vw, 6rem);
-            font-weight: 700;
-            line-height: 1.05;
-            letter-spacing: -2px;
-            margin-bottom: 30px;
-            text-shadow: 0 0 40px rgba(255,255,255,0.06);
-        }
+h2 {
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 600;
+    margin-bottom: 80px;
+    letter-spacing: -1px;
+    position: relative;
+    display: block;
+}
 
-        .hero p {
-            max-width: 750px;
-            font-size: clamp(1.1rem, 2vw, 1.6rem);
-            font-weight: 300;
-            line-height: 1.6;
-            opacity: 0.85;
-        }
+h2::after {
+    content: "";
+    display: block;
+    width: 60px;
+    height: 2px;
+    background: rgba(255,255,255,0.3);
+    margin-top: 20px;
+}
 
-        .button {
-            margin-top: 50px;
-            display: inline-block;
-            padding: 18px 44px;
-            border: 2px solid #E5E5E5;
-            text-decoration: none;
-            color: #E5E5E5;
-            font-weight: 700;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            font-size: 1.15rem;
-            transition: 0.2s ease;
-            width: fit-content;
-        }
+.hero {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+}
 
-        .button:hover {
-            background: #E5E5E5;
-            color: #000;
-        }
+.hero::after {
+  content: "";
+  position: absolute;
+  width: 700px;
+  height: 700px;
+  background: radial-gradient(circle, rgba(255,255,255,0.05) 0%, transparent 70%);
+  top: 10%;
+  right: -5%;
+  filter: blur(140px);
+  z-index: 0;
+}
 
-        h2 {
-            font-size: clamp(2rem, 4vw, 3rem);
-            font-weight: 600;
-            margin-bottom: 80px;
-            letter-spacing: -1px;
-            position: relative;
-        }
+.hero > * {
+    position: relative;
+    z-index: 1;
+}
+.hero p {
+    max-width: 750px;
+    font-size: clamp(1.1rem, 2vw, 1.6rem);
+    font-weight: 300;
+    line-height: 1.6;
+    opacity: 0.85;
+}
 
-        h2::after {
-            content: "";
-            display: block;
-            width: 60px;
-            height: 2px;
-            background: rgba(255,255,255,0.3);
-            margin-top: 20px;
-        }
+.button {
+    margin-top: 50px;
+    display: inline-block;
+    padding: 18px 44px;
+    border: 2px solid #E5E5E5;
+    text-decoration: none;
+    color: #E5E5E5;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-size: 1.15rem;
+    transition: 0.2s ease;
+}
 
-        .gallery {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 120px;
-        }
+.button:hover {
+    background: #E5E5E5;
+    color: #000;
+}
 
-        .gallery img {
-            width: 100%;
-            height: auto;
-            border-radius: 8px;
-            opacity: 0;
-            transform: translateY(60px);
-            transition: all 0.9s ease;
-        }
+.gallery {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 120px;
+}
 
-        .gallery img.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
+.gallery img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    border-radius: 8px;
+    display: block;
+    transition: transform 0.6s ease, filter 0.6s ease, box-shadow 0.6s ease;
+}
 
-        .video-container {
-            width: 80%;
-            max-width: 1000px;
-            margin: 40px auto;
-            border: 3px solid #222;
-            border-radius: 8px;
-            overflow: hidden;
-        }
+.gallery img:hover {
+    transform: translateY(-6px) scale(1.03);
+    filter: brightness(1.05);
+    box-shadow: 0 25px 50px rgba(0,0,0,0.45);
+}
 
-        video {
-            width: 100%;
-            display: block;
-        }
+.video-container {
+    width: 80%;           /* El 20% más pequeño que querías */
+    max-width: 1000px;    /* Para que el 720p no se pixele */
+    margin: 40px auto;    /* Centra el contenedor */
+    border: 3px solid #222;
+    border-radius: 8px;
+    overflow: hidden;     /* Para que el video respete las esquinas redondeadas */
+}
 
-        /* 3D MODEL VIEWER STYLES */
-        model-viewer {
-            width: 100%;
-            height: 600px;
-            background-color: #111;
-            margin-bottom: 40px;
-            position: relative;
-            --progress-bar-color: #ffffff;
-        }
+video {
+    width: 100%;          /* Ahora el video se adapta al contenedor */
+    display: block;
+}
 
-        .ar-button {
-            background-color: #fff;
-            border-radius: 4px;
-            border: none;
-            position: absolute;
-            top: 16px;
-            right: 16px;
-            padding: 8px 16px;
-            font-family: 'Space Grotesk', sans-serif;
-            font-weight: 600;
-            cursor: pointer;
-            z-index: 10;
-        }
+model-viewer {
+    width: 100%;
+    height: 600px;
+    background-color: #111;
+    --progress-bar-color: #ffffff; /* Color de la línea de carga */
+}
 
-        .progress-bar {
-            display: block;
-            width: 33%;
-            height: 4px;
-            position: absolute;
-            left: 50%;
-            top: 50%;
-            transform: translate(-50%, -50%);
-            background-color: rgba(255, 255, 255, 0.2);
-            border-radius: 2px;
-        }
+/* Estilo para el botón de AR personalizado */
+.ar-button {
+    background-color: #fff;
+    border-radius: 4px;
+    border: none;
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    padding: 8px 16px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 600;
+    cursor: pointer;
+}
 
-        .update-bar {
-            background-color: #fff;
-            width: 0%;
-            height: 100%;
-            border-radius: 2px;
-            transition: width 0.3s;
-        }
+/* La barra de carga */
+.progress-bar {
+    display: block;
+    width: 33%;
+    height: 4px;
+    max-height: 2%;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 2px;
+    background-color: rgba(255, 255, 255, 0.2);
+}
 
-        model-viewer > .progress-bar.hide {
-            display: none !important;
-        }
+.update-bar {
+    background-color: #fff;
+    width: 0%;
+    height: 100%;
+    border-radius: 2px;
+    transition: width 0.3s;
+}
 
-        .services ul {
-            list-style: none;
-            padding: 0;
-        }
+/* Ocultar la barra cuando cargue */
+model-viewer:not([ar-status="not-present"]) > .ar-button { display: block; }
+model-viewer > .progress-bar.hide { display: none; }
 
-        .services li {
-            font-size: clamp(1.3rem, 2vw, 1.8rem);
-            font-weight: 500;
-            padding: 30px 0;
-            border-bottom: 1px solid rgba(255,255,255,0.08);
-            transition: all 0.3s ease;
-            cursor: default;
-        }
+.services {
+    padding: 140px 12%;
+}
 
-        .services li:hover {
-            transform: translateX(8px);
-            opacity: 1;
-        }
+.services h2 {
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 600;
+    margin-bottom: 60px;
+    letter-spacing: -1px;
+}
 
-        .services li::after {
-            content: attr(data-desc);
-            display: block;
-            font-size: 1.1rem;
-            color: rgba(255,255,255,0.65);
-            opacity: 0;
-            transition: 0.25s ease;
-        }
+.services ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
 
-        .services li:hover::after {
-            opacity: 1;
-        }
+.services li {
+    font-size: clamp(1.3rem, 2vw, 1.8rem);
+    font-weight: 500;
+    padding: 30px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
 
-        footer {
-            border-top: 1px solid #222;
-            padding: 60px 12%;
-        }
+.services li:hover {
+    opacity: 1;
+    transform: translateX(8px);
+}
 
-        .email {
-            font-size: clamp(1.4rem, 2.5vw, 2rem);
-            color: rgba(255,255,255,0.75);
-            text-decoration: none;
-            transition: 0.3s ease;
-            display: inline-block;
-        }
+.services li:not(:hover) {
+    opacity: 0.7;
+}
 
-        .email:hover {
-            color: #fff;
-            transform: translateX(6px);
-        }
+footer {
+    border-top: 1px solid #222;
+    padding: 60px 12%;
+}
 
-        .scroll-down {
-            position: absolute;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%);
-            color: rgba(255,255,255,0.5);
-            text-decoration: none;
-            animation: bounce 2s infinite;
-        }
+.email {
+    display: inline-block;
+    font-size: clamp(1.4rem, 2.5vw, 2rem);
+    font-weight: 400;
+    letter-spacing: -0.5px;
+    color: rgba(255,255,255,0.75);
+    text-decoration: none;
+    margin-top: 30px;
+    transition: transform 0.3s ease, color 0.3s ease;
+}
 
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% {transform: translateY(0) translateX(-50%);}
-            40% {transform: translateY(-10px) translateX(-50%);}
-        }
-    </style>
+.email:hover {
+    color: #ffffff;
+    transform: translateX(6px);
+}
+
+.fade-in {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.fade-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}    
+
+section {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+section.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+#work {
+  background: rgba(15,15,15,0.96);
+}
+
+section:nth-of-type(odd) {
+  background: rgba(11,11,11,0.98);
+}    
+
+.scroll-down {
+  display: block;
+  margin-top: 30px;
+  font-size: 1.1rem;
+  text-align: center;
+  color: rgba(255,255,255,0.55);
+  animation: bounce 2s infinite ease-in-out;
+  text-decoration: none;
+  transition: opacity 0.5s ease;
+  opacity: 1;
+  letter-spacing: 1px;
+}
+
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-8px);
+  }
+  60% {
+    transform: translateY(-4px);
+  }
+}    
+
+.services li {
+  position: relative;
+  cursor: default;
+  margin-bottom: 22px;
+}
+
+.services li::after {
+  content: attr(data-desc);
+  display: block;
+  font-size: 1.1rem;
+  color: rgba(255,255,255,0.65);
+  opacity: 0;
+  transform: translateY(-4px);
+  transition: opacity 0.25s ease, transform 0.25s ease;
+  margin-top: 4px;
+  line-height: 1.3;
+  pointer-events: none;
+}
+
+.services li:hover::after {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Render reveal animation */
+
+.gallery img {
+    opacity: 0;
+    transform: translateY(60px);
+    transition: opacity 0.9s ease, transform 0.9s ease;
+}
+
+.gallery img.visible {
+    opacity: 1;
+    transform: translateY(0);
+}    
+
+</style>
 </head>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  const sections = document.querySelectorAll("section");
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("visible");
+      }
+    });
+  });
+  sections.forEach(section => observer.observe(section));
+});
+</script>    
+
+<script>
+window.addEventListener("scroll", function() {
+  const scrollIcon = document.querySelector(".scroll-down");
+  if (!scrollIcon) return;
+
+  if (window.scrollY > 100) {
+    scrollIcon.style.opacity = "0";
+  } else {
+    scrollIcon.style.opacity = "1";
+  }
+});
+</script>    
+
 <body>
 
-    <section class="hero visible">
-        <h1>Product Visualization<br>Specialist</h1>
-        <p>High-end industrial rendering, technical documentation visuals and interactive 3D for engineering-driven brands.</p>
-        <a href="#work" class="button">View Work</a>
-        <a href="#work" class="scroll-down">↓ Scroll</a>
-    </section>
+<section class="hero">
+<h1>
+Product Visualization<br>
+Specialist
+</h1>
+<p>High-end industrial rendering, technical documentation visuals and interactive 3D for engineering-driven brands.</p>
+<a href="#work" class="button"><span>View Work</span></a>
+<a href="#work" class="scroll-down">
+  ↓ Scroll
+</a>
+</section>
 
-    <section id="work">
-        <h2>Selected Work</h2>
-        <div class="gallery">
-            <img src="assets/render1.png">
-            <img src="assets/render2.png">
-            <img src="assets/render3.png">
-            <img src="assets/render3.5.png">
-            <img src="assets/render4.png">
-            <img src="assets/render5.png">
-            <img src="assets/render6.png">
-            <img src="assets/render7.png">
-            <img src="assets/render8.png">
+<section id="work" class="fade-in">
+<h2>Selected Work</h2>
+<div class="gallery">
+<img src="assets/render1.png">
+<img src="assets/render2.png">
+<img src="assets/render3.png">
+<img src="assets/render3.5.png">
+<img src="assets/render4.png">
+<img src="assets/render5.png">
+<img src="assets/render6.png">
+<img src="assets/render7.png">
+<img src="assets/render8.png">  
+</div>
+</section>
+
+<section class="fade-in">
+    <h2>Animations</h2>
+    <div class="video-container">
+        <video autoplay muted loop playsinline src="assets/animation1.mp4"></video>
+    </div>
+</section>
+<section class="fade-in">
+    <h2>Interactive 3D</h2>
+
+    <model-viewer src="assets/model1.glb" 
+        poster="assets/render1.png" 
+    <model-viewer src="assets/model1.1.glb" 
+        ar ar-modes="webxr scene-viewer quick-look" 
+        camera-controls auto-rotate 
+        shadow-intensity="1.5" shadow-softness="0.5" exposure="1.2">
+
+        <button class="ar-button" slot="ar-button">View in AR</button>
+        <div class="progress-bar" slot="progress-bar">
+            <div class="update-bar"></div>
         </div>
-    </section>
+    </model-viewer>
 
-    <section>
-        <h2>Animations</h2>
-        <div class="video-container">
-            <video autoplay muted loop playsinline src="assets/animation1.mp4"></video>
+    <br><br>
+
+    <model-viewer src="assets/model2.glb" 
+        poster="assets/render2.png" 
+        ar ar-modes="webxr scene-viewer quick-look" 
+        camera-controls auto-rotate 
+        shadow-intensity="1.5" shadow-softness="0.5" exposure="1.2">
+
+        <button class="ar-button" slot="ar-button">View in AR</button>
+        <div class="progress-bar" slot="progress-bar">
+            <div class="update-bar"></div>
         </div>
-    </section>
+    </model-viewer>
+</section>
 
-    <section>
-        <h2>Interactive 3D</h2>
-        
-        <model-viewer src="assets/model1.1.glb" 
-            ar ar-modes="webxr scene-viewer quick-look" 
-            camera-controls auto-rotate 
-            shadow-intensity="1.5" shadow-softness="0.5" exposure="0.9">
-            <button class="ar-button" slot="ar-button">View in AR</button>
-            <div class="progress-bar" slot="progress-bar">
-                <div class="update-bar"></div>
-            </div>
-        </model-viewer>
+</section>
 
-        <model-viewer src="assets/model2.glb" 
-            ar ar-modes="webxr scene-viewer quick-look" 
-            camera-controls auto-rotate 
-            shadow-intensity="1.5" shadow-softness="0.5" exposure="0.9">
-            <button class="ar-button" slot="ar-button">View in AR</button>
-            <div class="progress-bar" slot="progress-bar">
-                <div class="update-bar"></div>
-            </div>
-        </model-viewer>
-    </section>
+<section class="services fade-in">
+<h2>Services</h2>
+<ul>
+<li data-desc="High fidelity stills for product promotion & technical use">High-End Product Rendering</li>
+<li data-desc="Clear documentation imagery for manuals & technical guides">Technical Visualization for Manuals</li>
+<li data-desc="Exploded & section views for assembly and instruction sheets">Exploded & Section Views</li>
+<li data-desc="Interactive 3D ready for web and presentations">Interactive 3D (Web-Ready GLB)</li>
+<li data-desc="Smooth, looping product and industrial animations">Industrial Product Animation</li>
+</ul>
+</section>
 
-    <section class="services">
-        <h2>Services</h2>
-        <ul>
-            <li data-desc="High fidelity stills for product promotion & technical use">High-End Product Rendering</li>
-            <li data-desc="Clear documentation imagery for manuals & technical guides">Technical Visualization for Manuals</li>
-            <li data-desc="Exploded & section views for assembly and instruction sheets">Exploded & Section Views</li>
-            <li data-desc="Interactive 3D ready for web and presentations">Interactive 3D (Web-Ready GLB)</li>
-            <li data-desc="Smooth, looping product and industrial animations">Industrial Product Animation</li>
-        </ul>
-    </section>
+<footer>
+<h2>Contact</h2>
+<a href="mailto:danyf.rincon@gmail.com" class="email">
+danyf.rincon@gmail.com
+</a>
+</footer>
 
-    <footer>
-        <h2>Contact</h2>
-        <a href="mailto:danyf.rincon@gmail.com" class="email">danyf.rincon@gmail.com</a>
-    </footer>
+<script>
+    const observerOptions = {
+        threshold: 0.15
+    };
 
-    <script>
-        // 1. Manejo de Aparición (Scroll Reveal)
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add("visible");
-                }
-            });
-        }, { threshold: 0.1 });
-
-        document.querySelectorAll('section, .gallery img').forEach(el => observer.observe(el));
-
-        // 2. Control de Barra de Carga para Modelos 3D
-        document.querySelectorAll('model-viewer').forEach((viewer) => {
-            const progressBar = viewer.querySelector('.progress-bar');
-            const updateBar = viewer.querySelector('.update-bar');
-            
-            viewer.addEventListener('progress', (event) => {
-                const progress = event.detail.totalProgress * 100;
-                updateBar.style.width = `${progress}%`;
-                if (progress === 100) {
-                    setTimeout(() => {
-                        progressBar.classList.add('hide');
-                    }, 300);
-                }
-            });
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add("visible");
+            }
         });
+    }, observerOptions);
 
-        // 3. Ocultar scroll icon al bajar
-        window.addEventListener("scroll", () => {
-            const icon = document.querySelector(".scroll-down");
-            if(icon) icon.style.opacity = window.scrollY > 100 ? "0" : "1";
+    // Esto activa la animación para secciones, imágenes, videos y modelos 3D
+    document.querySelectorAll('section, .gallery img, .video-container, model-viewer').forEach(el => {
+        observer.observe(el);
+    });
+</script>    
+<script>
+    document.querySelectorAll('model-viewer').forEach((viewer) => {
+        const progressBar = viewer.querySelector('.progress-bar');
+        const updateBar = viewer.querySelector('.update-bar');
+
+        viewer.addEventListener('progress', (event) => {
+            const progress = event.detail.totalProgress * 100;
+            updateBar.style.width = `${progress}%`;
+            if (progress === 100) {
+                progressBar.classList.add('hide');
+            }
         });
-    </script>
+    });
+</script>    
 </body>
 </html>
