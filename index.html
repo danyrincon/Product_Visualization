@@ -207,13 +207,14 @@ section:nth-of-type(odd) {
 .scroll-down {
   display: block;
   margin-top: 30px;
-  font-size: 2.4rem;
+  font-size: 1.4rem;
   text-align: center;
   color: rgba(255,255,255,0.55);
   animation: bounce 2s infinite ease-in-out;
   text-decoration: none;
   transition: opacity 0.5s ease;
   opacity: 1;
+  letter-spacing: 1px;
 }
 
 @keyframes bounce {
@@ -231,19 +232,19 @@ section:nth-of-type(odd) {
 .services li {
   position: relative;
   cursor: default;
+  margin-bottom: 22px;
 }
 
 .services li::after {
   content: attr(data-desc);
-  position: absolute;
-  left: 0;
-  bottom: -30px;
-  font-size: 1rem;
-  color: rgba(255,255,255,0.7);
+  display: block;
+  font-size: 0.95rem;
+  color: rgba(255,255,255,0.65);
   opacity: 0;
-  transition: opacity 0.3s ease, transform 0.3s ease;
-  transform: translateY(10px);
-  white-space: nowrap;
+  transform: translateY(-4px);
+  transition: opacity 0.25s ease, transform 0.25s ease;
+  margin-top: 4px;
+  line-height: 1.3;
   pointer-events: none;
 }
 
