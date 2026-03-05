@@ -135,14 +135,40 @@ video {
     display: block;
 }
 
+/* --- ESTILOS DE MODEL-VIEWER LIMPIOS --- */
 model-viewer {
     width: 100%;
     height: 600px;
-    background-color: #111;
-    --progress-bar-color: #ffffff; /* Color de la línea de carga */
+    background-color: #0b0b0b;
+    position: relative;
 }
 
-/* Estilo para el botón de AR personalizado */
+.progress-bar {
+    display: block;
+    width: 40%;
+    height: 4px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    z-index: 100;
+}
+
+.update-bar {
+    background-color: #ffffff;
+    width: 0%;
+    height: 100%;
+    border-radius: 10px;
+    transition: width 0.2s;
+    box-shadow: 0 0 10px rgba(255,255,255,0.5);
+}
+
+.progress-bar.hide {
+    display: none !important;
+}
+
 .ar-button {
     background-color: #fff;
     border-radius: 4px;
@@ -154,33 +180,12 @@ model-viewer {
     font-family: 'Space Grotesk', sans-serif;
     font-weight: 600;
     cursor: pointer;
+    z-index: 10;
 }
 
-/* La barra de carga */
-.progress-bar {
-    display: block;
-    width: 33%;
-    height: 4px;
-    max-height: 2%;
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    border-radius: 2px;
-    background-color: rgba(255, 255, 255, 0.2);
+model-viewer:not([ar-status="not-present"]) > .ar-button { 
+    display: block; 
 }
-
-.update-bar {
-    background-color: #fff;
-    width: 0%;
-    height: 100%;
-    border-radius: 2px;
-    transition: width 0.3s;
-}
-
-/* Ocultar la barra cuando cargue */
-model-viewer:not([ar-status="not-present"]) > .ar-button { display: block; }
-model-viewer > .progress-bar.hide { display: none; }
 
 .services {
     padding: 140px 12%;
@@ -394,38 +399,34 @@ Specialist
         <video autoplay muted loop playsinline src="assets/animation1.mp4"></video>
     </div>
 </section>
-<section class="fade-in">
+<section>
     <h2>Interactive 3D</h2>
-
-    <model-viewer src="assets/model1.glb" 
-        poster="assets/render1.png" 
+    
     <model-viewer src="assets/model1.1.glb" 
         ar ar-modes="webxr scene-viewer quick-look" 
         camera-controls auto-rotate 
         shadow-intensity="1.5" shadow-softness="0.5" exposure="0.9">
-
-        <button class="ar-button" slot="ar-button">View in AR</button>
+        
         <div class="progress-bar" slot="progress-bar">
             <div class="update-bar"></div>
         </div>
+        <button class="ar-button" slot="ar-button">View in AR</button>
     </model-viewer>
 
     <br><br>
 
     <model-viewer src="assets/model2.glb" 
-        poster="assets/render2.png" 
         ar ar-modes="webxr scene-viewer quick-look" 
         camera-controls auto-rotate 
         shadow-intensity="1.5" shadow-softness="0.5" exposure="0.9">
-
-        <button class="ar-button" slot="ar-button">View in AR</button>
+        
         <div class="progress-bar" slot="progress-bar">
             <div class="update-bar"></div>
         </div>
+        <button class="ar-button" slot="ar-button">View in AR</button>
     </model-viewer>
 </section>
 
-</section>
 
 <section class="services fade-in">
 <h2>Services</h2>
@@ -467,15 +468,20 @@ danyf.rincon@gmail.com
     document.querySelectorAll('model-viewer').forEach((viewer) => {
         const progressBar = viewer.querySelector('.progress-bar');
         const updateBar = viewer.querySelector('.update-bar');
-
+        
         viewer.addEventListener('progress', (event) => {
-            const progress = event.detail.totalProgress * 100;
-            updateBar.style.width = `${progress}%`;
-            if (progress === 100) {
-                progressBar.classList.add('hide');
+            // event.detail.totalProgress va de 0 a 1
+            const percentage = event.detail.totalProgress * 100;
+            updateBar.style.width = `${percentage}%`;
+            
+            if (percentage >= 100) {
+                // Pequeño delay para que el usuario vea que llegó al final
+                setTimeout(() => {
+                    progressBar.classList.add('hide');
+                }, 500);
             }
         });
     });
-</script>    
+</script>   
 </body>
 </html>
